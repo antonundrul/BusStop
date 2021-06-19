@@ -1,6 +1,6 @@
 package by.undrul.busStop.exception;
 
-public class BusStopException extends Exception{
+public class BusStopException extends Exception {
     public BusStopException() {
     }
 

@@ -25,7 +25,6 @@ public class DataReaderImpl implements DataReader {
 
         ArrayList<String> dataFromFile = new ArrayList<>();
         File file = new File(path);
-
         try (Stream<String> linesStream = Files.lines(file.toPath())) {
             linesStream.forEach(dataFromFile::add);
 
