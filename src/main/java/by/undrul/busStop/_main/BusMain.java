@@ -2,8 +2,8 @@ package by.undrul.busStop._main;
 
 import by.undrul.busStop.creator.BusCreator;
 import by.undrul.busStop.creator.impl.BusCreatorImpl;
-import by.undrul.busStop.entity.BusTrip;
-import by.undrul.busStop.exception.BusStopException;
+import by.undrul.busStop.entity.Bus;
+import by.undrul.busStop.exception.BusSheduleException;
 import by.undrul.busStop.parser.BusParser;
 import by.undrul.busStop.parser.impl.BusParserImpl;
 import by.undrul.busStop.reader.DataReader;
@@ -12,22 +12,14 @@ import by.undrul.busStop.service.BusService;
 import by.undrul.busStop.service.impl.BusServiceImpl;
 import by.undrul.busStop.writer.DataWriter;
 import by.undrul.busStop.writer.impl.DataWriterImpl;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.time.Period;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Set;
 
 /**
  * Hello world!
  */
 public class BusMain {
-    private static Logger logger = LogManager.getLogger();
-
     public static void main(String[] args) {
-
 
         DataReader reader = new DataReaderImpl();
         BusParser parser = new BusParserImpl();
@@ -35,26 +27,31 @@ public class BusMain {
         DataWriter writer = new DataWriterImpl();
         BusService service = new BusServiceImpl();
 
-        String filepath = "./src/main/resources/data/input.txt";
+        String inputFile = "./src/main/resources/data/input.txt";
+        String outputFile = "./src/main/resources/data/output.txt";
 
-        ArrayList<BusTrip> buses = new ArrayList<>();
+        ArrayList<Bus> buses = new ArrayList<>();
 
         try {
-            ArrayList<String> datafromFile = reader.readDataFromFile(filepath);
+            ArrayList<String> datafromFile = reader.readDataFromFile(inputFile);
 
-            for(String line : datafromFile){
+            for (String line : datafromFile) {
                 String[] elements = parser.parseBuses(line);
-                BusTrip bus =  creator.createBusTrip(elements);
+                Bus bus = creator.createBus(elements);
                 buses.add(bus);
             }
 
-        } catch (BusStopException e) {
+        } catch (BusSheduleException e) {
             e.printStackTrace();
         }
 
-        ArrayList<BusTrip> newBuses = service.transformToEfficient(buses);
-        newBuses = service.sortBusShedule(newBuses);
-        logger.info(newBuses);
-        writer.writeDataInFile(newBuses);
+        ArrayList<Bus> newShedule = service.transformSheduleToEfficient(buses);
+        newShedule = service.sortBusShedule(newShedule);
+
+        try {
+            writer.writeDataInFile(newShedule, outputFile);
+        } catch (BusSheduleException e) {
+            e.printStackTrace();
+        }
     }
 }

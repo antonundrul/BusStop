@@ -1,8 +1,8 @@
 package by.undrul.busStop.creator;
 
-import by.undrul.busStop.entity.BusTrip;
-import by.undrul.busStop.exception.BusStopException;
+import by.undrul.busStop.entity.Bus;
+import by.undrul.busStop.exception.BusSheduleException;
 
 public interface BusCreator {
-    BusTrip createBusTrip(String[] elements) throws BusStopException;
+    Bus createBus(String[] elements) throws BusSheduleException;
 }

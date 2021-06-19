@@ -1,6 +1,6 @@
 package by.undrul.busStop.reader.impl;
 
-import by.undrul.busStop.exception.BusStopException;
+import by.undrul.busStop.exception.BusSheduleException;
 import by.undrul.busStop.reader.DataReader;
 import by.undrul.busStop.validator.FileValidator;
 import org.apache.logging.log4j.LogManager;
@@ -16,11 +16,11 @@ public class DataReaderImpl implements DataReader {
     private static Logger logger = LogManager.getLogger();
 
     @Override
-    public ArrayList<String> readDataFromFile(String path) throws BusStopException {
+    public ArrayList<String> readDataFromFile(String path) throws BusSheduleException {
         logger.info("Method to read data from file started");
 
         if (!FileValidator.isFileValid(path)) {
-            throw new BusStopException("File " + path + " is empty or don't exist or has incorrect filepath");
+            throw new BusSheduleException("File " + path + " is empty or don't exist or has incorrect filepath");
         }
 
         ArrayList<String> dataFromFile = new ArrayList<>();
@@ -29,7 +29,7 @@ public class DataReaderImpl implements DataReader {
             linesStream.forEach(dataFromFile::add);
 
         } catch (Exception e) {
-            throw new BusStopException("File is not found", e);
+            throw new BusSheduleException("File is not found", e);
         }
 
         logger.info("Data from file read");

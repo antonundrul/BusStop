@@ -1,7 +1,7 @@
 package by.undrul.busStop.service.impl;
 
 import by.undrul.busStop.comparator.BusDepartureTimeComparator;
-import by.undrul.busStop.entity.BusTrip;
+import by.undrul.busStop.entity.Bus;
 import by.undrul.busStop.service.BusService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,8 +13,8 @@ public class BusServiceImpl implements BusService {
     public static Logger logger = LogManager.getLogger();
 
     @Override
-    public ArrayList<BusTrip> transformToEfficient(ArrayList<BusTrip> buses) {
-        ArrayList<BusTrip> newBusShedule = new ArrayList<>();
+    public ArrayList<Bus> transformSheduleToEfficient(ArrayList<Bus> buses) {
+        ArrayList<Bus> newBusShedule = new ArrayList<>();
 
         for (int i = 0; i < buses.size(); i++) {
             boolean isEfficient = true;
@@ -23,6 +23,7 @@ public class BusServiceImpl implements BusService {
                 logger.info(buses.get(i) + " has duration > 60 min");
             }
             for (int j = 0; j < buses.size(); j++) {
+
                 if (buses.get(i).getDepartureTime().equals(buses.get(j).getDepartureTime())) {
                     if (buses.get(i).getArrivalTime().equals(buses.get(j).getArrivalTime())
                             && !buses.get(i).getBusCompany().equals(buses.get(j).getBusCompany())) {
@@ -34,32 +35,28 @@ public class BusServiceImpl implements BusService {
                     if (buses.get(i).getArrivalTime().isAfter(buses.get(j).getArrivalTime())) {
                         isEfficient = false;
                     }
-
                 }
+
                 if (buses.get(i).getDepartureTime().isBefore(buses.get(j).getDepartureTime())) {
                     if (buses.get(i).getArrivalTime().isAfter(buses.get(j).getArrivalTime())
                             || buses.get(i).getArrivalTime().equals(buses.get(j).getArrivalTime())) {
                         isEfficient = false;
                     }
                 }
-
             }
 
             if (isEfficient) {
                 newBusShedule.add(buses.get(i));
             }
-
-
         }
         return newBusShedule;
     }
 
     @Override
-    public ArrayList<BusTrip> sortBusShedule(ArrayList<BusTrip> buses) {
+    public ArrayList<Bus> sortBusShedule(ArrayList<Bus> buses) {
         BusDepartureTimeComparator departureTimeComparator = new BusDepartureTimeComparator();
-        ArrayList<BusTrip> result = (ArrayList<BusTrip>) buses.stream().sorted(departureTimeComparator).collect(Collectors.toList());
+        ArrayList<Bus> result = (ArrayList<Bus>) buses.stream().sorted(departureTimeComparator).collect(Collectors.toList());
 
         return result;
     }
-
 }

@@ -1,13 +1,13 @@
 package by.undrul.busStop.comparator;
 
-import by.undrul.busStop.entity.BusTrip;
+import by.undrul.busStop.entity.Bus;
 
 import java.util.Comparator;
 
-public class BusDepartureTimeComparator implements Comparator<BusTrip> {
+public class BusDepartureTimeComparator implements Comparator<Bus> {
 
     @Override
-    public int compare(BusTrip o1, BusTrip o2) {
+    public int compare(Bus o1, Bus o2) {
         int compare = o1.getDepartureTime().compareTo(o2.getDepartureTime());
         return compare;
     }

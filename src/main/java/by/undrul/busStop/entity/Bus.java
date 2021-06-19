@@ -6,15 +6,12 @@ import java.util.Objects;
 
 import static java.time.temporal.ChronoUnit.MINUTES;
 
-public class BusTrip implements Serializable {
+public class Bus implements Serializable {
     private String busCompany;
     private LocalTime departureTime;
     private LocalTime arrivalTime;
 
-    public BusTrip() {
-    }
-
-    public BusTrip(String busCompany, LocalTime departureTime, LocalTime arrivalTime) {
+    public Bus(String busCompany, LocalTime departureTime, LocalTime arrivalTime) {
         this.busCompany = busCompany;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
@@ -53,8 +50,8 @@ public class BusTrip implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BusTrip busTrip = (BusTrip) o;
-        return busCompany == busTrip.busCompany && Objects.equals(departureTime, busTrip.departureTime) && Objects.equals(arrivalTime, busTrip.arrivalTime);
+        Bus bus = (Bus) o;
+        return busCompany == bus.busCompany && Objects.equals(departureTime, bus.departureTime) && Objects.equals(arrivalTime, bus.arrivalTime);
     }
 
     @Override
@@ -75,7 +72,6 @@ public class BusTrip implements Serializable {
         sb.append(busCompany).append("  ").append(departureTime.toString()).append("  ").append(arrivalTime);
         return sb.toString();
     }
-
 }
 
 
